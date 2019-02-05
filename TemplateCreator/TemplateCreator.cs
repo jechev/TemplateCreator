@@ -18,6 +18,12 @@ namespace TemplateCreator
             this.ObjectNamePlural = objectNameSingular;
         }
 
+        public string ObjectNamePlural
+        {
+            get { return this.objectNamePlural; }
+            set { this.objectNamePlural = value.Pluralize(); }
+        }
+
         public string RepositoryPath
         {
             get { return this.appPath + "/output/Repositories/Test/"; }
@@ -26,12 +32,6 @@ namespace TemplateCreator
         public string ServicePath
         {
             get { return this.appPath + "/output/Services/"; }
-        }
-
-        public string ObjectNamePlural
-        {
-            get { return this.objectNamePlural; }
-            set { this.objectNamePlural = value.Pluralize(); }
         }
 
         public void CreateSerivceTemplate()
