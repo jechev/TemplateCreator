@@ -4,76 +4,13 @@ using Humanizer;
 
 namespace TemplateCreator
 {
-    public class TemplateCreator
+    public  class TemplateCreator
     {
-        private string objectNameSingular;
-        private string objectNamePlural;
-        private const string repositoryText = "This is Repository Template for ";
-        private const string serviceText = "Service Template for ";
-        private readonly string appPath = Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory()));
+        private readonly string pathForTemplates = Path.GetDirectoryName(Path.GetDirectoryName(Directory.GetCurrentDirectory())) + "/output/";
 
-        public TemplateCreator(string objectNameSingular)
+        public TemplateCreator()
         {
-            this.objectNameSingular = objectNameSingular;
-            this.ObjectNamePlural = objectNameSingular;
-        }
 
-        public string ObjectNamePlural
-        {
-            get { return this.objectNamePlural; }
-            set { this.objectNamePlural = value.Pluralize(); }
-        }
-
-        public string RepositoryPath
-        {
-            get { return this.appPath + "/output/Repositories/Test/"; }
-        }
-
-        public string ServicePath
-        {
-            get { return this.appPath + "/output/Services/"; }
-        }
-
-        public void CreateSerivceTemplate()
-        {
-            this.CreateFolder(this.ServicePath);
-            string filePath = this.ServicePath + this.objectNamePlural + "Service.txt";
-            if (!File.Exists(filePath))
-            {
-                using (StreamWriter sw = File.CreateText(filePath))
-                {
-                    sw.WriteLine(serviceText + this.objectNameSingular + ", " + this.objectNamePlural + ".");
-                }
-                Console.WriteLine(this.ObjectNamePlural + "Service is created!");
-            }
-            else
-            {
-                Console.WriteLine(this.ObjectNamePlural + "Service exists!");
-            } 
-        }
-
-        public void CreateRepositoryTemplate()
-        {
-            this.CreateFolder(this.RepositoryPath);
-            string filePath = this.RepositoryPath + this.objectNamePlural + "Repository.cs";
-            if (!File.Exists(filePath))
-            {
-                using (StreamWriter sw = File.CreateText(filePath))
-                {
-                    sw.WriteLine(repositoryText + this.objectNameSingular + ", " + this.objectNamePlural + ".");
-                }
-                Console.WriteLine(this.ObjectNamePlural + "Repository is created!");
-            }
-            else
-            {
-                Console.WriteLine(this.ObjectNamePlural + "Repository exists!");
-            }
-        }
-
-        public void CreateRepositoryAndServiceTemplates()
-        {
-            this.CreateSerivceTemplate();
-            this.CreateRepositoryTemplate();
         }
 
         private void CreateFolder(string path)
@@ -82,6 +19,44 @@ namespace TemplateCreator
             if (!folderExists)
             {
                 Directory.CreateDirectory(path);
+            }
+        }
+
+        public void CreateFile(FileTemplate template)
+        {
+            string fullPath;
+            string namePlural = template.Name.Pluralize();
+            if (String.IsNullOrEmpty(template.Path))
+            {
+                fullPath = this.pathForTemplates + template.ComponentName.Pluralize()  + "/";
+            } else
+            {
+                fullPath = this.pathForTemplates + template.ComponentName.Pluralize() + "/" + template.Path + "/";
+            }
+
+            string file = fullPath + namePlural + template.ComponentName + "." + template.FileExtension;
+            
+            this.CreateFolder(fullPath);
+
+            if (!File.Exists(file))
+            {
+                using (StreamWriter sw = File.CreateText(file))
+                {
+
+                    if (String.IsNullOrEmpty(template.Content))
+                    {
+                        sw.WriteLine("This is " + template.ComponentName + "Template for " + template.Name + ", " + namePlural + ".");
+                    }
+                    else
+                    {
+                        sw.WriteLine(template.Content);
+                    }
+                }
+                Console.WriteLine(namePlural + template.ComponentName + " is created!");
+            }
+            else
+            {
+                Console.WriteLine(namePlural + template.ComponentName + " exists!");
             }
         }
 

@@ -1,0 +1,23 @@
+<FileTemplates>
+	<FileTemplate>
+		<Name>Food</Name>
+		<Path>Test</Path>
+		<ComponentName>Controller</ComponentName>
+		<FileExtension>cs</FileExtension>
+		<Content>Demoo</Content>
+	</FileTemplate>
+	<FileTemplate>
+		<Name>Account</Name>
+		<Path>test/test2/test3</Path>
+		<ComponentName>Service</ComponentName>
+		<FileExtension>txt</FileExtension>
+		<Content></Content>
+	</FileTemplate>
+	<FileTemplate>
+		<Name>Agency</Name>
+		<Path>Test4</Path>
+		<ComponentName>Service</ComponentName>
+		<FileExtension>cs</FileExtension>
+		<Content></Content>
+	</FileTemplate>
+</FileTemplates>
